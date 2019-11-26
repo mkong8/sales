@@ -1,7 +1,9 @@
 import logging
 import requests
-from urllib.parse import urlparse
 from bs4 import BeautifulSoup
+from urllib.parse import urlparse
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 logger = logging.getLogger(__name__)
 
@@ -16,8 +18,13 @@ def scrape(url):
     brand = get_brand(url) # TODO: Notify client of invalid URL
     print("Brand: {}".format(brand))
 
-    data = requests.get(url)
-    page = BeautifulSoup(data.text, 'html.parser')
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('headless')
+    chrome_options.add_argument('window-size=1920x1080')
+    browser = webdriver.Chrome(options=chrome_options)
+    browser.get(url)
+    html = browser.page_source
+    page = BeautifulSoup(html, 'html.parser')
 
     if brand == 'jcrew':
         logger.info('Scraping J.Crew page...')
