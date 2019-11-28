@@ -39,13 +39,13 @@ def scrape(url):
         reg_price = page.find_all(class_='is-price')[0].string
         sale_price = page.find_all(class_='sale-price')[0].string
         price = sale_price if sale_price != BLANK else reg_price
-        price = float(price.strip('$'))
+        price = price.strip('$')
 
         print("Price: ", price)
         if not price:
             LOGGER.error('Invalid item: no pricing found')
 
-        return product, price
+        return brand, product, price
 
         
 
