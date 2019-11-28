@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python3 bin/scrape.py urls.txt
